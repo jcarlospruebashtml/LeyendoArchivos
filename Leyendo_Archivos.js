@@ -4,18 +4,21 @@
 
 
 "use strict";
-var zonadatos,boton,espacio_asignado,ruta;
+var zonadatos,boton,botonE,espacio_asignado,ruta;
 
 function inicio(){
 	zonadatos=document.getElementById("zonadatos");/*ERROR REFORMADO, "document.getElementById" por "addEventListener", descubierto gracias a la consola del navegador chrome*/
 	boton=document.getElementById("boton");
 	boton.addEventListener("click",crear,false);
 	
+	
+	
 	/*PRIMER PARAMETRO ES EL ESPACIO QUE VA A OCUPAR EL SISTEMA DE ARCHIVOS, MEDIDO EN BITES, LO QUEREMOS EN MEGAS, POR ESO PONEMOS 1024 AL CUADRADO.
 	ESTA INSTRUCCION PIDE PERMISO AL NAVEGADOR PARA PODER CREAR UN ESPACIO EN DISCO */
 	
 	navigator.webkitPersistentStorage.requestQuota(5*1024*1024, acceso);
 }
+
 function acceso(){
 	
 	/*PARAMETROS DEL METODO "RequestFileSystem":
@@ -39,9 +42,13 @@ function crearsis(sistema){
 }
 function crear(){
 	var archivo=document.getElementById("entrada").value;
+	var dir=document.getElementById("dir").value;
 	if(archivo!==""){
 		archivo=ruta + archivo;
 		espacio_asignado.getFile(archivo,{create:true, exclusive:false},mostrarSiExito,errores);
+	}
+	if(dir!==""){
+		espacio_asignado.getDirectory(dir,{create:true, exclusive:false},mostrarSiExito,errores);
 	}
 }
 function mostrarSiExito(){
@@ -87,4 +94,4 @@ function errores(evento){
 }
 
 
-window.addEventListener("load",inicio,false);// JavaScript Document
+window.addEventListener("load",inicio,false);
